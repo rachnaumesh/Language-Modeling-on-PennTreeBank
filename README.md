@@ -58,39 +58,25 @@ Four experimental configurations were evaluated to assess the impact of regulari
    - **Purpose**: Baseline to understand model performance.
 
 4. **GRU with Dropout**
-   - **Architecture**: GRU with a dropout probability of 0.5 applied after the embedding layer.
+   - **Architecture**: GRU with a dropout probability of 0.3 applied after the embedding layer.
    - **Purpose**: Evaluate dropout's role in preventing overfitting and generalization.
 
-## Training Process
+### Training Hyperparameters
 
-### Hyperparameters
+| **Hyperparameter**             | **Value**               |
+|--------------------------------|-------------------------|
+| Batch Size                     | 20                      |
+| Sequence Length                | 20                      |
+| Vocabulary Size                | 10,000                  |
+| Embedding Size                 | 200                     |
+| Hidden Size                    | 200                     |
+| Number of Layers               | 2                       |
+| Dropout Probability            | 0.0 / 0.5 / 0.3         |
+| Learning Rate                  | 1.6 / 3.4 / 1.5 / 1.8   |
+| Optimizer                      | SGD                     |
+| Learning Rate Scheduler        | LambdaLR                |
+| Number of Epochs               | 13 / 20                 |
 
-| Hyperparameter          | Value    |
-|-------------------------|----------|
-| Batch Size              | 20       |
-| Sequence Length         | 20       |
-| Vocabulary Size         | 10,000   |
-| Embedding Size          | 200      |
-| Hidden Size             | 200      |
-| Number of Layers        | 2        |
-| Dropout Probability     | 0.0 / 0.
-| Learning Rate           | 3.5 / 1.5|
-| Optimizer               | SGD      |
-| Learning Rate Scheduler | LambdaLR |
-| Number of Epochs        | 13 / 20  |
-
-### Training Configuration
-
-- **Optimizer**: Stochastic Gradient Descent (SGD) with learning rates:
-  - **3.5** for models without dropout
-  - **1.5** for models with dropout
-
-- **Learning Rate Scheduler**: LambdaLR adjusts the learning rate based on epoch number:
-  - **Dropout = 0.0**: Constant for first 7 epochs, then decays by a factor of 0.50 each subsequent epoch.
-  - **Dropout = 0.5**: Constant for first 12 epochs, followed by similar decay.
-
-- **Loss Function**: CrossEntropyLoss to measure the discrepancy between predicted logits and actual targets.
-  
 ### Training Loop
 
 For each epoch:
@@ -119,20 +105,14 @@ For each epoch:
 
 ## Results
 
-### Convergence Graphs
+### Results Summary
 
-The following graphs illustrate the training and validation perplexities over epochs for each model variant:
-
-![Convergence Graphs](plots/convergence_graphs.png)
-
-### Summary Table
-
-| Model                    | Dropout Probability | Train Perplexity | Validation Perplexity | Test Perplexity | Best Epoch |
-|--------------------------|---------------------|-------------------|-----------------------|------------------|------------|
-| LSTM                     | 0.0                 | 120.50            | 90.30                 | 88.45            | 15         |
-| LSTM with Dropout        | 0.5                 | 130.20            | 85.10                 | 83.80            | 20         |
-| GRU                      | 115.40             | 85.60             | 75.20                 | 70.10            | 12         |
-| GRU with Dropout         | 0.5                 | 125.70            | 78.50                 | 76.30            | 18         |
+| Model | Dropout Probability | Train Perplexity | Validation Perplexity | Test Perplexity |
+|-------|---------------------|------------------|-----------------------|-----------------|
+| LSTM  | 0.0                 | 73.00            | 122.37                | 122.37          |
+| LSTM  | 0.5                 | 103.21           | 104.51                | 104.51          |
+| GRU   | 0.0                 | 50.99            | 121.29                | 121.29          |
+| GRU   | 0.3                 | 72.68            | 104.09                | 104.09          |
 
 ## Conclusions
 
