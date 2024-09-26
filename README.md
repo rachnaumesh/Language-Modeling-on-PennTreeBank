@@ -124,7 +124,7 @@ For each epoch:
   - Higher training perplexities but significantly improved validation and test perplexities, demonstrating enhanced generalization.
   
 - **GRU vs. LSTM**:
-  - GRU models trained faster, likely due to their simpler architecture.
+  - GRU models trained faster, likely due to their simpler architecture. They also show better performance on the validation and test set when compared to LSTMs. 
   
 - **Dropout Effectiveness**:
   - Dropout effectively reduced overfitting, as evidenced by better performance on validation and test sets across both architectures.
