@@ -120,10 +120,10 @@ For each epoch:
   - Achieved lower training perplexities but higher validation and test perplexities, indicating overfitting.
   
 - **Regularized Models (with Dropout)**:
-  - Slightly higher training perplexities but significantly improved validation and test perplexities, demonstrating enhanced generalization.
+  - Higher training perplexities but significantly improved validation and test perplexities, demonstrating enhanced generalization.
   
 - **GRU vs. LSTM**:
-  - GRU models trained faster and achieved better generalization compared to LSTM models, likely due to their simpler architecture.
+  - GRU models trained faster, likely due to their simpler architecture.
   
 - **Dropout Effectiveness**:
   - Dropout effectively reduced overfitting, as evidenced by better performance on validation and test sets across both architectures.
