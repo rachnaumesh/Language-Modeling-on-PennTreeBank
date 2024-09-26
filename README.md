@@ -17,9 +17,9 @@ This project implements and trains LSTM (Long Short-Term Memory) and GRU (Gated 
 ## Dataset
 
 The Penn Tree Bank (PTB) dataset is utilized for training, validating, and testing the language models. It consists of roughly:
-- **Training Set**: 930,000 words
-- **Validation Set**: 73,000 words
-- **Test Set**: 82,000 words
+- **Training Set**: 929,589 words
+- **Validation Set**: 73,760 words
+- **Test Set**: 82,430 words
 
 The dataset includes sequences of word tokens, each represented by an index from a vocabulary of 10,000 most frequent words.
 
