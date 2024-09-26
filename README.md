@@ -16,30 +16,30 @@ This project implements and trains LSTM (Long Short-Term Memory) and GRU (Gated 
 
 ## Dataset
 
-The Penn Tree Bank (PTB) dataset is utilized for training and evaluating the language models. It consists of:
+The Penn Tree Bank (PTB) dataset is utilized for training, validating, and testing the language models. It consists of roughly:
 - **Training Set**: 930,000 words
 - **Validation Set**: 73,000 words
 - **Test Set**: 82,000 words
 
-The dataset includes sequences of word tokens, each represented by an index from a vocabulary of 10,000 most frequent words. Rare or unseen words are mapped to an `<unk>` (unknown) token.
+The dataset includes sequences of word tokens, each represented by an index from a vocabulary of 10,000 most frequent words.
 
 ## Model Architectures
 
 ### LSTM (Long Short-Term Memory)
 
 The LSTM model is designed to capture long-term dependencies in sequential data. Its architecture includes:
-- **Embedding Layer**: Converts token indices into 200-dimensional dense vectors.
-- **LSTM Layers**: Two stacked LSTM layers, each with 200 hidden units, to model complex temporal dependencies.
-- **Dropout Layer**: Applied after the embedding layer with configurable dropout probability to prevent overfitting.
-- **Fully Connected Layer**: Maps LSTM outputs to the vocabulary size (10,000 tokens), producing logits for each token prediction.
+- **Embedding Layer**: Converts token indices into 200-dimensional vectors.
+- **LSTM Layers**: Two fully-connected LSTM layers, each with 200 hidden units.
+- **Dropout Layer**: Applied after the embedding layer and in hidden LSTM layers with configurable dropout probability to prevent overfitting.
+- **Fully Connected Layer**: Maps LSTM outputs to the vocabulary size (10,000 unique tokens), producing logits for each token prediction.
 
 ### GRU (Gated Recurrent Unit)
 
 The GRU model offers a streamlined alternative to LSTM with fewer parameters:
 - **Embedding Layer**: Similar to LSTM, it transforms token indices into 200-dimensional vectors.
-- **GRU Layers**: Two stacked GRU layers with 200 hidden units each, capturing temporal dependencies efficiently.
-- **Dropout Layer**: Applied post-embedding with configurable dropout probability.
-- **Fully Connected Layer**: Transforms GRU outputs into logits corresponding to the vocabulary size.
+- **GRU Layers**: Two fully-connected GRU layers with 200 hidden units each.
+- **Dropout Layer**: Applied post-embedding and in GRU hidden layers with configurable dropout probability.
+- **Fully Connected Layer**: Maps LSTM outputs to the vocabulary size (10,000 unique tokens), producing logits for each token prediction.
 
 ## Model Variants
 
@@ -47,19 +47,19 @@ Four experimental configurations were evaluated to assess the impact of regulari
 
 1. **LSTM without Dropout**
    - **Architecture**: Standard LSTM with no dropout.
-   - **Purpose**: Baseline to measure the effect of adding dropout.
+   - **Purpose**: Baseline to understand model performance.
 
 2. **LSTM with Dropout**
-   - **Architecture**: LSTM with a dropout probability of 0.5 applied after the embedding layer.
-   - **Purpose**: Evaluate dropout's role in preventing overfitting.
+   - **Architecture**: LSTM with a dropout probability of 0.5 applied after the embedding layer and in hidden layers.
+   - **Purpose**: Evaluate dropout's role in preventing overfitting and generalization.
 
 3. **GRU without Dropout**
    - **Architecture**: Standard GRU with no dropout.
-   - **Purpose**: Baseline for GRU models.
+   - **Purpose**: Baseline to understand model performance.
 
 4. **GRU with Dropout**
    - **Architecture**: GRU with a dropout probability of 0.5 applied after the embedding layer.
-   - **Purpose**: Assess dropout's effectiveness in GRU models.
+   - **Purpose**: Evaluate dropout's role in preventing overfitting and generalization.
 
 ## Training Process
 
@@ -77,7 +77,7 @@ Four experimental configurations were evaluated to assess the impact of regulari
 | Learning Rate           | 3.5 / 1.5|
 | Optimizer               | SGD      |
 | Learning Rate Scheduler | LambdaLR |
-| Number of Epochs        | 20 / 28  |
+| Number of Epochs        | 13 / 20  |
 
 ### Training Configuration
 
@@ -90,13 +90,7 @@ Four experimental configurations were evaluated to assess the impact of regulari
   - **Dropout = 0.5**: Constant for first 12 epochs, followed by similar decay.
 
 - **Loss Function**: CrossEntropyLoss to measure the discrepancy between predicted logits and actual targets.
-
-### Data Loading Optimization
-
-- **Parallel Data Loading**: Utilized multiple worker threads equal to CPU cores for faster data preprocessing.
-- **Pinned Memory**: Enabled `pin_memory=True` when using GPUs to expedite data transfer.
-- **Efficient Sequence Creation**: Employed PyTorch's `unfold` method for creating input and target sequences efficiently.
-
+  
 ### Training Loop
 
 For each epoch:
@@ -121,6 +115,7 @@ For each epoch:
 6. **Logging and Visualization**:
    - Record perplexity scores.
    - Generate and save perplexity plots for analysis.
+   - Generate and save table for best perplexities. 
 
 ## Results
 
@@ -155,6 +150,6 @@ The following graphs illustrate the training and validation perplexities over ep
 
 ## How to Train and Test
 
-### Training the Models
 
-To train all experimental settings, run the main script:
+Training and Evaluating the Model: To train and evaluate the models, the final block of code should be executed within the provided notebook. This block initializes four different model configurations and runs a training and testing loop for each one, over a predefined number of epochs.
+Once this block is run, each model will undergo training for the specified number of epochs. During each epoch, the code evaluates the model on both the training, validation, and test datasets to monitor performance and generalization. The best model for each configuration is saved based on test accuracy, and the results are used to generate convergence graphs and a final accuracy comparison table.
